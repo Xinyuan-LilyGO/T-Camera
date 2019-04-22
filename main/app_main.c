@@ -151,10 +151,7 @@ void pir_task(void *p)
     gpio_config(&gpio_conf);
 
     int prev = 0;
-    int count = 0;
-    char buff[128];
     while ((1)) {
-#if 1
         int level =  gpio_get_level(GPIO_PIR);
         if (prev != level) {
             if (level) {
@@ -167,14 +164,6 @@ void pir_task(void *p)
             prev = level;
         }
         vTaskDelay(1000 / portTICK_PERIOD_MS);
-#else
-        ssd1306_clearScreen();
-        ssd1306_printFixedN(20, 0, "test", STYLE_NORMAL, FONT_SIZE_2X);
-        ssd1306_printFixedN(20, 40, "count", STYLE_NORMAL, FONT_SIZE_2X);
-        snprintf(buff, sizeof(buff), "%d", count++);
-        ssd1306_printFixedN(20, 25, buff, STYLE_NORMAL, FONT_SIZE_2X);
-        // if (count >= 10)count = 0;
-#endif
     }
 }
 
@@ -193,7 +182,6 @@ void app_main()
     ESP_LOGI("esp-eye", "Version "VERSION);
     while (g_state == WAIT_FOR_WAKEUP)
         vTaskDelay(1000 / portTICK_PERIOD_MS);
-    ESP_LOGI("esp-eye", "app_wifi_init ");
     app_wifi_init();
     app_camera_init();
     app_httpserver_init();
