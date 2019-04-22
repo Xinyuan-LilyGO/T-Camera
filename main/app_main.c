@@ -166,8 +166,8 @@ void pir_task(void *p)
             }
             prev = level;
         }
-#else
         vTaskDelay(1000 / portTICK_PERIOD_MS);
+#else
         ssd1306_clearScreen();
         ssd1306_printFixedN(20, 0, "test", STYLE_NORMAL, FONT_SIZE_2X);
         ssd1306_printFixedN(20, 40, "count", STYLE_NORMAL, FONT_SIZE_2X);
@@ -182,9 +182,6 @@ void app_main()
 {
     mssd1306_init();
 
-    // setPowerBoostKeepOn(1);
-    // gpio_led_init();
-
     app_speech_wakeup_init();
 
     xTaskCreatePinnedToCore(&pir_task, "blink_task", 2048, NULL, 5, NULL, 0);
@@ -196,6 +193,7 @@ void app_main()
     ESP_LOGI("esp-eye", "Version "VERSION);
     while (g_state == WAIT_FOR_WAKEUP)
         vTaskDelay(1000 / portTICK_PERIOD_MS);
+    ESP_LOGI("esp-eye", "app_wifi_init ");
     app_wifi_init();
     app_camera_init();
     app_httpserver_init();
