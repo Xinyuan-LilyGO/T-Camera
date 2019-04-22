@@ -182,7 +182,7 @@ void app_main()
 {
     mssd1306_init();
 
-    setPowerBoostKeepOn(1);
+    // setPowerBoostKeepOn(1);
     // gpio_led_init();
 
     app_speech_wakeup_init();
